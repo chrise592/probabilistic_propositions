@@ -89,13 +89,36 @@ class BayesianNetwork:
         print ''
 
 
-def gibbs():
-    """Gibbs inference algorithm."""
+def likelihoodWeighting(X, e, bn, N):
+    """The likelihood-weighting algorithm for inference in Bayesian networks.
+    inputs: X, the query variable
+            e, observed values for variables E
+            bn, a Bayesian network specifying joint distribution P(X1,...,Xn)
+            N, the total number of samples to be generated
+    local variables: W, a vector of weighted counts for each value of X, initially zero
+    """
     pass
 
 
-def weighted():
-    """Weighted inference algorithm."""
+def weightedSample(bn, e):
+    """Each nonevidence variable is sampled according to the conditional distribution
+    given the values already sampled for the variable's parents, while a weight is
+    accumulated based on the likelihood for each evidence variable."""
+    pass
+
+
+def gibbsAsk(X, e, bn, N):
+    """The Gibbs sampling algorithm for approximate inference in Bayesian networks;
+    this version cycles through the variables, but choosing variables at random also works.
+    local variables: N, a vector of counts for each value of X, initially zero
+                     Z, the nonevidence variables in bn
+                     x, the current state of the network, initially copied from e
+    """
+    pass
+
+
+def normalize(W):
+    """Normalize a vector of weighted counts for each value of X to become probabilities."""
     pass
 
 
@@ -112,7 +135,7 @@ if __name__ == '__main__':
     # Call the appropriate functions depending on user input
     while True:
         # Request command
-        args = raw_input('(Describe, Tell VAR {0, 1, ?}, Ask VAR, or Quit) \n> ').split()
+        args = raw_input('(Describe, Tell VAR {0, 1, ?}, Ask VAR, or Quit)\n> ').split()
         if args == []:
             print ''
             continue
