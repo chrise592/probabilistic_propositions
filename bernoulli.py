@@ -38,7 +38,6 @@ samples and Gibbs sampling, the program would be invoked as
 python bernoulli.py test.net 1000 gibbs
 
 """
-
 import argparse
 
 
@@ -149,3 +148,5 @@ if __name__ == '__main__':
                 break
         else:
             print 'Not a valid command. Follow prompt guidelines.\n'
+
+# End of program
