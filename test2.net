@@ -1,0 +1,13 @@
+4 4
+Cloudy
+Sprinkler
+Rain
+WetGrass
+Cloudy Sprinkler
+Cloudy Rain
+Sprinkler WetGrass
+Rain WetGrass
+Cloudy 0.5 0.5
+Sprinkler 0.5 0.1
+Rain 0.2 0.8
+WetGrass .0 .9 .9 .99
