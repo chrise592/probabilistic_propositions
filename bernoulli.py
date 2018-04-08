@@ -1,9 +1,16 @@
 # File: bernoulli.py
 # Author: Chris Evers
-# Date: 2 April 2018
+# Date: 7 April 2018
 # Description: Problem Set #3, Problem 10: Engineering Design Problem
 
-"""On startup the program should read a file (in the format described below) specifying a
+"""The following repository which is offered by the recommended text, 'AIMA', was used for
+reference in the creation of this python module:
+
+    https://github.com/aimacode/aima-python
+
+In this implementation, nodes in the Bayesian network can have, at most, 2 parents.
+
+On startup the program should read a file (in the format described below) specifying a
 Bayesian Networks of Bernoulli random variables. The file name, the number of samples to use,
 and the inference algorithm should be read from the command line (in that order). The program
 should work for any size network that will reasonably fit in memory.

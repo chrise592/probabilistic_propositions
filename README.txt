@@ -1,54 +1,8 @@
-This is a generic program for performing approximate inference in Bayesian Networks
-of Bernoulli random variables (probabilistic proposition).
+Chris Evers
+Problem Set 3, Problem 10 Analysis
+-------------------------------------
+Network 1
 
-Program Specification
-On startup the program should read a file (in the format described below) specifying a
-Bayesian Networks of Bernoulli random variables. The file name, the number of samples to use,
-and the inference algorithm should be read from the command line (in that order). The program
-should work for any size network that will reasonably fit in memory.
-
-After reading the file, the program should prompt the user for one of four commands,
-Describe, Tell, Ask, and Quit. If any command is malformed the program should print
-an error and prompt again.
-
-The Describe command should print the available variables and if they are an evidence
-variable or not, i.e. if a value is assigned to that node. The Quit command should simply
-exit the program.
-
-The Tell command should be of the form:
-
-Tell VAR {0,1,?}
-
-where VAR is a variable in the network, setting it to 0 or 1 respectively, or clearing it
-in the case of ?.
-
-The Ask command should be of the form:
-
-Ask VAR
-
-where VAR is any variable in the network, printing the P(VAR) using the selected
-inference algorithm, either ”weighted” or ”gibbs”. If ”weighted” is specified, the program
-should use the likelihood weighting approximate inference algorithm described in section
-14.5 of your text (Figure 14.15). If ”gibbs” is specified, the program should use the Gibbs
-sampling approximate inference algorithm described in section 14.5 of your text (Figure
-14.16).
-
-For example, to run your program on the BN described in the file test.net using 1000
-samples and Gibbs sampling, the program would be invoked as
-
-python bernoulli.py test.net 1000 gibbs
-
-File Format
-The file format is text based. The first line are two space separated integers, N and M,
-specifying the number of nodes and connections in the network respectively. The next N
-lines are single words indicating the text label for each node. The next M lines are space
-separated words specifying the connections in the network, with the arc going from the
-first to the second label. The last N lines specify the probability table of each node,
-with the first word being the node label followed by P space separated floating point
-numbers, one for each line of the associated probability table in lexical ordering of the
-variable labels. Thus the total number of fields on the line depends on the in-degree of
-that node. For example, the following text file describes the example Bayesian network
-in the figure below.
 3 2
 A
 B
@@ -58,3 +12,83 @@ B C
 A 0.3 0.7
 B 0.75 0.25
 C 0.1 0.3 0.45 0.15
+--------------------------------------
+Network 2
+
+4 4
+Cloudy
+Sprinkler
+Rain
+WetGrass
+Cloudy Sprinkler
+Cloudy Rain
+Sprinkler WetGrass
+Rain WetGrass
+Cloudy 0.5 0.5
+Sprinkler 0.5 0.1
+Rain 0.2 0.8
+WetGrass .0 .9 .9 .99
+--------------------------------------
+Network 3
+
+1 0
+A
+A 0.3 0.7
+--------------------------------------
+Network 4
+
+2 1
+A
+B
+A B
+A 0.3 0.7
+B 0.75 0.25
+--------------------------------------
+Network 5
+
+4 3
+A
+B
+C
+D
+A C
+B C
+C D
+A 0.3 0.7
+B 0.75 0.25
+C 0.1 0.4 0.4 0.8
+D 0.5 0.5
+--------------------------------------
+The above specified 5 different networks of varying size and CPT's.
+
+                                    Analysis Chart
+
+Num Samples                 | 10            |    100        | 500           |   1000        |
+----------------------------|---------------|---------------|---------------|---------------|
+Network 1                   |Gibbs:      0.2|Gibbs:     0.14|Gibbs:    0.154|Gibbs:    0.158|
+P(C|A=1,B=1)                |Weighted:   0.1|Weighted:  0.16|Weighted: 0.156|Weighted: 0.152|
+----------------------------|---------------|---------------|---------------|---------------|
+Network 2                   |Gibbs:      1.0|Gibbs:     0.95|Gibbs:    0.963|Gibbs:    0.990|
+P(Rain|Cloudy=1,WetGrass=1) |Weighted: 0.857|Weighted: 0.963|Weighted: 0.971|Weighted: 0.973|
+----------------------------|---------------|---------------|---------------|---------------|
+Network 3                   |Gibbs:      0.8|Gibbs:     0.65|Gibbs:    0.708|Gibbs:    0.689|
+P(A)                        |Weighted:   0.7|Weighted:  0.73|Weighted:  0.67|Weighted: 0.717|
+----------------------------|---------------|---------------|---------------|---------------|
+Network 4                   |Gibbs:      0.2|Gibbs:     0.22|Gibbs:    0.234|Gibbs:    0.235|
+P(B|A=1)                    |Weighted:   0.2|Weighted:  0.25|Weighted: 0.288|Weighted: 0.258|
+----------------------------|---------------|---------------|---------------|---------------|
+Network 5                   |Gibbs:     0.75|Gibbs:     0.51|Gibbs:    0.497|Gibbs:    0.478|
+P(D|A=0,B=1)                |Weighted:   0.3|Weighted:   0.5|Weighted: 0.508|Weighted: 0.497|
+----------------------------|---------------|---------------|---------------|---------------|
+
+The above chart compares constant probabilities from each of the 5 networks, using various
+numbers of samples, and both the Gibbs and Likelihood Weighting algorithms. Some conclusions
+can be drawn about how each variable affects the outputted probability. First of all, as the
+number of samples increased, the probabilities converged to actual probability given in the
+CPT. In the case of network 5, where C is a hidden variable, the lower num_samples gave
+very unreliable guesses. The Gibbs and Weighted algorithms also gave quite different results,
+all things remaining constant. I think that the difference actualyl depends on the structure
+of the network, because the values differed much in network 5, where it has an unknown hidden
+variable. The algorithms also gave surprisingly different results in network 3, which only
+has one variable. The weighted algorithm actually gave more consistent results, where Gibbs
+varied more, with only one variable.
